@@ -3,11 +3,11 @@
 using namespace std;
 using ll = long long;
 
-struct matrix {
+struct matrix22 {
     ll mat[2][2];
 
-    matrix friend operator*(const matrix &a, const matrix &b) {
-        matrix c;
+    matrix22 friend operator*(const matrix22 &a, const matrix22 &b) {
+        matrix22 c;
 
         for (int i=0; i<2; i++) {
             for (int j=0; j<2; j++) {
@@ -23,9 +23,9 @@ struct matrix {
 };
 
 int fib(int n) {
-    matrix mat = {{ {1, 1}, {1, 0} }};
+    matrix22 mat = {{ {1, 1}, {1, 0} }};
 
-    matrix fib_mat = {{ {1, 0}, {0, 1} }};
+    matrix22 fib_mat = {{ {1, 0}, {0, 1} }};
     while (n > 0) {
         if (n & 1) {
             fib_mat = fib_mat * mat;
