@@ -1,46 +1,49 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define pii pair<int, int>
-#define f first
-#define s second
-
-int t, n;
-pii lr;
-
-bool cmp(const pii& a, const pii& b) {
-    return a > b;
-}
 
 void solve() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
     cin >> n;
-
-    priority_queue<pii, vector<pair<int, int>>, bool(*)(const pii&, const pii&)> pq(cmp);
+    vector<pair<int, int>> a(n);
     for (int i=0; i<n; i++) {
-        cin >> lr.f >> lr.s;
-        pq.emplace(lr);
+        cin >> a[i].first >> a[i].second;
     }
+    sort(a.begin(), a.end());
 
-    vector<int> available(n);
-    iota(available.begin(), available.end(), 1);
-    while (!pq.empty()) {
-        auto top = pq.top(); pq.pop();
+    auto cmp = [&](int i, int j) -> bool {
+        return a[i].second > a[j].second;
+    };
 
-        auto lb = lower_bound(available.begin(), available.end(), top.f);
-        if (lb != available.end() && *lb <= top.s) {
-            available.erase(lb);
-        } else {
+    priority_queue<int, vector<int>, decltype(cmp)> pq(cmp);
+
+    int last = -1;
+    int i=0;
+    while (i < n || !pq.empty()) {
+        if (i < n && pq.empty()) pq.push(i++);
+
+        while (i < n && last + 1 >= a[i].first) {
+            pq.push(i++);
+        }
+
+        int curr = pq.top(); pq.pop();
+        if (a[curr].second <= last) {
             cout << "No\n";
             return;
         }
+        last = max(last + 1, a[curr].first);
     }
 
     cout << "Yes\n";
 }
 
 int main() {
-    cin >> t;
-    for (int i=0; i<t; i++) {
+    int tt;
+    cin >> tt;
+    while (tt--) {
         solve();
     }
 }
