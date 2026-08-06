@@ -1,39 +1,52 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
 
+constexpr int md = int(1e9)+7;
+int add(int a, int b) {
+    a += b;
+    if (a >= md) a -= md;
+    return a;
+}
+int mult(int a, int b) { return ((ll)a * b) % md; }
+int binpow(int a, int b) {
+    int ans = 1;
+    while (b) {
+        if (b & 1) ans = mult(ans, a);
+        a = mult(a, a);
+        b >>= 1;
+    }
+    return ans;
+}
 
 int main() {
     int n, m, q;
     cin >> n >> m >> q;
 
-    vector<pair<int, int>> intervals;
+    set<int> s;
     while (m--) {
-        int l, r; cin >> l >> r;
-        intervals.push_back({ l, -r });
+        int l, r;
+        cin >> l >> r; r++;
+
+        if (s.count(l)) s.erase(l);
+        else s.insert(l);
+        if (s.count(r)) s.erase(r);
+        else s.insert(r);
     }
-    map<int, int> black;
-    sort(intervals.begin(), intervals.end());
-    pair<int, int> curr = { intervals[0].first, -intervals[0].second };
-    for (int i=1; i<intervals.size(); i++) {
-        auto [l, rr] = intervals[i];
-        int r = -rr;
-        if (l > curr.second + 1) {
-            black[curr.second] = curr.first;
-        } else {
-            curr.second = r;
-        }
-    }
-    black[curr.second] = curr.first;
+
+    vector<int> a;
+    a.push_back(0);
+    for (int x : s) a.push_back(x);
 
     while (q--) {
-
+        int l, r; cin >> l >> r;
+        auto l = 
     }
 }
 
 /*
-its always optimal to make all the 1's into the prefix
-    and take the rest of the zeros (after the last 1) as a suffix
-
-the problem is to track the last 1
+[101000000010001010111111111100000]
+=> 11111111111111100000
+    (2^(quantidade de 1's) - 1) << (quantidade de zeros)
 
 */
