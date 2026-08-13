@@ -2,23 +2,29 @@
 using namespace std;
 using ll = long long;
 
+#define point pair<ll, ll>
+#define X first
+#define Y second
+point add(point a, point b) { return { a.X + b.X, a.Y + b.Y }; }
+point sub(point a, point b) { return { a.X - b.X, a.Y - b.Y }; }
+point mult(point a, int k) { return { a.X * k, a.Y * k }; }
+ll dot(point a, point b) { return a.X*b.X + a.Y*b.Y; }
+point rot90(point a) { return { a.Y, -a.X }; }
+
 
 int main() {
     int tt; cin >> tt;
     while (tt--) {
-        ll x1, y1, x2, y2, x3, y3;
-        cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3;
+        point a, b, c;
+        cin >> a.X >> a.Y >> b.X >> b.Y >> c.X >> c.Y;
 
-        // slope of 1 -> 2: (y2 - y1) / (x2 - x1)
-        // slope of 2 -> 3: (y3 - y2) / (x3 - x2)
-
-        ll d = (y2 - y1) * (x3 - x2)  - (y3 - y2) * (x2 - x1);
-        if (d == 0) {
-            cout << "TOUCH\n";
-        } else if (d > 0) {
+        ll d = dot(sub(b, a), rot90(sub(c, a)));
+        if (d < 0) {
             cout << "RIGHT\n";
-        } else {
+        } else if (d > 0) {
             cout << "LEFT\n";
+        } else {
+            cout << "TOUCH\n";
         }
     }
 }
